@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.arthu.medicalapp">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".MainActivity"
+            android:label="MedicalApp"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ProductActivity"
+            android:label="MedicalApp - Produtos"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ProductEntryActivity"
+            android:label="MedicalApp - Produtos" />
+
+        <meta-data
+            android:name="AA_DB_NAME"
+            android:value="MedicalDB.db" />
+        <meta-data
+            android:name="AA_DB_VERSION"
+            android:value="4" />
+        <meta-data
+            android:name="AA_MODELS"
+            android:value="com.example.arthu.medicalapp.Entity.Product, com.example.arthu.medicalapp.Entity.HealthEnsurance, com.example.arthu.medicalapp.Entity.Doctor,             com.example.arthu.medicalapp.Entity.Procedure, com.example.arthu.medicalapp.Entity.ProcedureProduct " />
+
+        <activity
+            android:name=".HealthEnsuranceActivity"
+            android:label="MedicalApp - Planos de Saúde" />
+        <activity
+            android:name=".HealthEnsuranceEntryActivity"
+            android:label="MedicalApp - Planos de Saúde" />
+        <activity
+            android:name=".DoctorActivity"
+            android:label="MedicalApp - Médicos" />
+        <activity
+            android:name=".DoctorEntryActivity"
+            android:label="MedicalApp - Médicos" />
+        <activity
+            android:name=".ProcedureActivity"
+            android:label="MedicalApp - Procedimentos" />
+        <activity
+            android:name=".ProcedureEntryActivity"
+            android:label="MedicalApp - Procedimentos" />
+        <activity android:name=".Row"></activity>
+    </application>
+
+</manifest>
