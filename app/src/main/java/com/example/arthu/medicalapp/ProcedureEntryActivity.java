@@ -7,12 +7,18 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.arthu.medicalapp.Adapters.ProductCheckBoxAdapter;
+import com.example.arthu.medicalapp.ApiService.ProcedureService;
+import com.example.arthu.medicalapp.ApiService.ProductService;
 import com.example.arthu.medicalapp.Entity.Procedure;
 import com.example.arthu.medicalapp.Entity.ProcedureProduct;
 import com.example.arthu.medicalapp.Entity.Product;
+import com.example.arthu.medicalapp.Entity.ProductQuantity;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -25,27 +31,27 @@ public class ProcedureEntryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_procedure_entry);
 
-        List<Product> products = getProducts();
-        final ListView lv = (ListView) findViewById(R.id.productsList);
-        //lv.setItemsCanFocus(true);
-        final ProductCheckBoxAdapter adapter = new ProductCheckBoxAdapter(this, products);
-        lv.setAdapter(adapter);
+        List<ProductQuantity> products = getProducts();
 
-        Button btnDelete = (Button)findViewById(R.id.btnDelete);
-        Button btnSave2 = (Button)findViewById(R.id.btnSave2);
+        Button btnDelete = (Button) findViewById(R.id.btnDelete);
+        Button btnSave = (Button) findViewById(R.id.btnSave);
 
         if (this.getIntent().hasExtra("Id")) {
             this.Id = this.getIntent().getLongExtra("Id", -1);
-            //this.showFields(this.Id);
-        }else{
+            this.showFields(this.Id, products);
+        } else {
             btnDelete.setVisibility(View.INVISIBLE);
         }
 
-            btnSave2.setOnClickListener(new View.OnClickListener() {
+        final ListView lv = (ListView) findViewById(R.id.productsList);
+        final ProductCheckBoxAdapter adapter = new ProductCheckBoxAdapter(this, products);
+        lv.setAdapter(adapter);
+
+        btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText txtId = (EditText)findViewById(R.id.idField);
-                EditText txtName = (EditText)findViewById(R.id.nameField);
+                EditText txtId = (EditText) findViewById(R.id.idField);
+                EditText txtName = (EditText) findViewById(R.id.nameField);
 
                 Map<Product, Boolean> products = adapter.getItemChecked();
 
@@ -54,15 +60,17 @@ public class ProcedureEntryActivity extends AppCompatActivity {
                     ProcedureProduct pp;
                     String name = txtName.getText().toString();
 
+                    ProcedureService api = new ProcedureService();
+
                     if (TextUtils.isEmpty(txtId.getText())) {
                         procedure = new Procedure(name);
 
-                        for (Map.Entry<Product, Boolean> prod: products.entrySet()) {
-                            pp = new ProcedureProduct(procedure, prod.getKey());
-                            MainActivity.getDb().save(pp);
+                        for (Map.Entry<Product, Boolean> prod : products.entrySet()) {
+                            procedure.addProduct(new ProductQuantity(prod.getKey(), 1));
                         }
+                        api.Add(procedure);
                     } else {
-                        procedure = MainActivity.getDb().getEntityById(Procedure.class, Long.parseLong(txtId.getText().toString()));
+                        //procedure = MainActivity.getDb().getEntityById(Procedure.class, Long.parseLong(txtId.getText().toString()));
                         //healthEnsurance.Name = name;
                     }
                     finish();
@@ -71,7 +79,33 @@ public class ProcedureEntryActivity extends AppCompatActivity {
         });
     }
 
-    private List<Product> getProducts(){
-        return MainActivity.getDb().getList(Product.class);
+    private List<ProductQuantity> getProducts() {
+        Product[] products = new ProductService().getAll();
+        List<ProductQuantity> productQuantities = new ArrayList<>();
+
+        for (Product product: products){
+            productQuantities.add(new ProductQuantity(product, 0));
+        }
+
+        return productQuantities;
+    }
+
+    private void showFields(Long id, List<ProductQuantity> products){
+        Procedure procedure = new ProcedureService().getById(id);
+
+        EditText txtId = (EditText)findViewById(R.id.idField);
+        EditText txtName = (EditText)findViewById(R.id.nameField);
+
+        txtId.setEnabled(false);
+        txtId.setText(procedure.getId().toString());
+        txtName.setText(procedure.getName());
+
+        for(ProductQuantity p: procedure.getProducts()){
+            for (ProductQuantity p2: products){
+                if(p2.getCode().equals(p.getCode())){
+                    p2.setQuantity(p.getQuantity());
+                }
+            }
+        }
     }
 }

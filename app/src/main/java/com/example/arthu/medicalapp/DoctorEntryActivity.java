@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.arthu.medicalapp.ApiService.DoctorService;
 import com.example.arthu.medicalapp.Entity.Doctor;
 
 public class DoctorEntryActivity extends AppCompatActivity {
@@ -19,7 +20,7 @@ public class DoctorEntryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_doctor_entry);
 
         Button btnDelete = (Button)findViewById(R.id.btnDelete);
-        Button btnSave = (Button) findViewById(R.id.btnSave2);
+        Button btnSave = (Button) findViewById(R.id.btnSave);
 
         if (this.getIntent().hasExtra("Id")) {
             this.Id = this.getIntent().getLongExtra("Id", -1);
@@ -40,15 +41,17 @@ public class DoctorEntryActivity extends AppCompatActivity {
                     String name = txtName.getText().toString();
                     String specialization = txtSpecialization.getText().toString();
 
+                    DoctorService api = new DoctorService();
+
                     if (TextUtils.isEmpty(txtId.getText())) {
-                        doctor= new Doctor(name, specialization);
+                        doctor = new Doctor(name, specialization);
+                        api.Add(doctor);
                     }else {
-                        doctor = MainActivity.getDb().getEntityById(Doctor.class, Long.parseLong(txtId.getText().toString()));
-                        doctor.Name = name;
-                        doctor.Specialization = specialization;
+                        doctor = new Doctor(name, specialization);
+                        doctor.setId(Long.parseLong(txtId.getText().toString()));
+                        api.Update(doctor);
                     }
 
-                    MainActivity.getDb().save(doctor);
                     finish();
                 }
             }
@@ -60,7 +63,8 @@ public class DoctorEntryActivity extends AppCompatActivity {
                 EditText idField = (EditText) findViewById(R.id.idField);
 
                 if(!EntryHelper.isFieldsEmpty(idField)){
-                    MainActivity.getDb().delete(Doctor.class, Long.parseLong(idField.getText().toString()));
+                    DoctorService api = new DoctorService();
+                    api.Delete(idField.getText().toString());
                     finish();
                 }
             }
@@ -68,14 +72,15 @@ public class DoctorEntryActivity extends AppCompatActivity {
     }
 
     private void showFields(long id) {
-        Doctor doctor = MainActivity.getDb().getEntityById(Doctor.class, id);
+        DoctorService api = new DoctorService();
+        Doctor doctor = api.getById(id);
 
         EditText txtId = (EditText)findViewById(R.id.idField);
         EditText txtName = (EditText)findViewById(R.id.nameField);
         EditText txtSpecialization = (EditText)findViewById(R.id.specializatinoField);
 
         txtId.setText(Long.toString(id));
-        txtName.setText(doctor.Name);
-        txtSpecialization.setText(doctor.Specialization);
+        txtName.setText(doctor.getName());
+        txtSpecialization.setText(doctor.getSpecialization());
     }
 }

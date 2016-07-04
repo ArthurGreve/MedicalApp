@@ -42,7 +42,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Salvar"
-        android:id="@+id/btnSave2"
+        android:id="@+id/btnSave"
         android:layout_centerVertical="true"
         android:layout_toLeftOf="@+id/textView4"
         android:layout_toStartOf="@+id/textView4" />
@@ -53,7 +53,7 @@
         android:layout_height="wrap_content"
         android:text="Excluir"
         android:id="@+id/btnDelete"
-        android:layout_alignTop="@+id/btnSave2"
+        android:layout_alignTop="@+id/btnSave"
         android:layout_toRightOf="@+id/textView4"
         android:layout_toEndOf="@+id/textView4" />
 
@@ -61,7 +61,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/idField"
-        android:layout_below="@+id/btnSave2"
+        android:layout_below="@+id/btnSave"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="48dp"

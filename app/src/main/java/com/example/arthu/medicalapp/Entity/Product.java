@@ -1,32 +1,44 @@
 package com.example.arthu.medicalapp.Entity;
 
-import com.activeandroid.Model;
-import com.activeandroid.annotation.Column;
-import com.activeandroid.annotation.Table;
+public class Product {
 
-@Table(name = "Products")
-public class Product extends Model {
+    private String code;
+    private String name;
+    private String description;
 
-    @Column(name = "Code", unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
-    public String Code;
-    @Column(name = "Name")
-    public String Name;
-    @Column(name = "Description")
-    public String Description;
-
-    public Product(){
-        super();
-    }
+    public Product(){}
 
     public Product(String code, String name, String description){
-        this();
-        this.Code = code;
-        this.Name = name;
-        this.Description = description;
+        this.code = code;
+        this.name = name;
+        this.description = description;
     }
 
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description){
+        this.description = description;
+    }
     @Override
     public String toString() {
-        return this.Code + " - " + this.Name;
+        return this.code + " - " + this.name;
     }
 }

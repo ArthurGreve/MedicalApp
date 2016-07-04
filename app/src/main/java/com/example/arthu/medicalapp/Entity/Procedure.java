@@ -1,26 +1,49 @@
 package com.example.arthu.medicalapp.Entity;
 
-import com.activeandroid.Model;
-import com.activeandroid.annotation.Column;
-import com.activeandroid.annotation.Table;
-
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
-@Table(name="Procedures")
-public class Procedure extends Model{
+public class Procedure {
+    private Long id;
+    private String name;
+    private List<ProductQuantity> products;
 
-    @Column(name = "Name")
-    public String Name;
-
-    public Procedure(){super();}
-
-    public Procedure(String name){
-        this();
-        this.Name = name;
+    public Procedure(){
+        this.products = new ArrayList<>();
     }
 
+    public Procedure(String name){
+        this.name = name;
+        this.products= new ArrayList<>();
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void addProduct(ProductQuantity p){
+        this.products.add(p);
+    }
+
+    public List<ProductQuantity> getProducts(){
+        return products;
+    }
     @Override
     public String toString() {
-        return this.Name.toUpperCase();
+        return this.getName().toUpperCase();
     }
 }

@@ -79,7 +79,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Salvar"
-        android:id="@+id/btnSave2"
+        android:id="@+id/btnSave"
         android:layout_below="@+id/descField"
         android:layout_toRightOf="@+id/textView2"
         android:layout_toEndOf="@+id/textView2"
@@ -91,9 +91,9 @@
         android:layout_height="wrap_content"
         android:text="Excluir"
         android:id="@+id/btnDelete"
-        android:layout_alignTop="@+id/btnSave2"
-        android:layout_toRightOf="@+id/btnSave2"
-        android:layout_toEndOf="@+id/btnSave2"
+        android:layout_alignTop="@+id/btnSave"
+        android:layout_toRightOf="@+id/btnSave"
+        android:layout_toEndOf="@+id/btnSave"
         android:layout_marginLeft="69dp"
         android:layout_marginStart="69dp" />
 </RelativeLayout>

@@ -7,17 +7,20 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.arthu.medicalapp.ApiService.ProductService;
 import com.example.arthu.medicalapp.Entity.Product;
 
 public class ProductEntryActivity extends AppCompatActivity {
 
     private String code;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_entry);
-        Button btnDelete = (Button)findViewById(R.id.btnDelete);
-        Button btnSave = (Button) findViewById(R.id.btnSave2);
+
+        final Button btnDelete = (Button)findViewById(R.id.btnDelete);
+        Button btnSave = (Button) findViewById(R.id.btnSave);
 
         if (this.getIntent().hasExtra("Code")) {
             this.code = this.getIntent().getStringExtra("Code");
@@ -37,8 +40,14 @@ public class ProductEntryActivity extends AppCompatActivity {
                     String code = txtCode.getText().toString();
                     String name = txtName.getText().toString();
                     String desc = descField.getText().toString();
+
                     Product product = new Product(code, name, desc);
-                    MainActivity.getDb().save(product);
+                    ProductService api = new ProductService();
+
+                    if(btnDelete.getVisibility() == View.INVISIBLE)
+                        api.Add(product);
+                    else
+                        api.Update(product);
 
                     finish();
                 }
@@ -51,7 +60,8 @@ public class ProductEntryActivity extends AppCompatActivity {
                 EditText codeField = (EditText) findViewById(R.id.codeField);
 
                 if(!EntryHelper.isFieldsEmpty(codeField)){
-                    MainActivity.getDb().delete(Product.class, "code='" + codeField.getText().toString() + "'");
+                    ProductService api = new ProductService();
+                    api.Delete(codeField.getText().toString());
                     finish();
                 }
             }
@@ -59,15 +69,15 @@ public class ProductEntryActivity extends AppCompatActivity {
     }
 
     private void showFields(String code) {
-        Product product = MainActivity.getDb().getEntityById(Product.class, "code='" + code + "'");
+        Product product = new ProductService().getById(code);
 
         EditText txtCode = (EditText)findViewById(R.id.codeField);
         EditText txtName = (EditText)findViewById(R.id.nameField);
         TextView descField = (TextView)findViewById(R.id.descField);
 
         txtCode.setEnabled(false);
-        txtCode.setText(product.Code);
-        txtName.setText(product.Name);
-        descField.setText(product.Description);
+        txtCode.setText(product.getCode());
+        txtName.setText(product.getName());
+        descField.setText(product.getDescription());
     }
 }

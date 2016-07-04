@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.example.arthu.medicalapp.ApiService.DoctorService;
 import com.example.arthu.medicalapp.Entity.Database;
 import com.example.arthu.medicalapp.Entity.Doctor;
 import com.example.arthu.medicalapp.Entity.Product;
@@ -61,7 +62,7 @@ public class DoctorActivity extends AppCompatActivity {
     private void showDoctors() {
         final ListView doctorList = (ListView)findViewById(R.id.doctorView);
 
-        List<Doctor> values = MainActivity.getDb().getList(Doctor.class);
+        Doctor[] values = new DoctorService().getAll();
 
         ArrayAdapter<Doctor> studentAdapter =  new ArrayAdapter<Doctor>(this, android.R.layout.simple_list_item_1, values);
 
@@ -70,7 +71,7 @@ public class DoctorActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Doctor doctor = (Doctor)doctorList.getItemAtPosition(position);
 
-                Intent i = new Intent(view.getContext(), ProductEntryActivity.class);
+                Intent i = new Intent(view.getContext(), DoctorEntryActivity.class);
                 i.putExtra("Id", doctor.getId());
                 startActivityForResult(i, REQUEST_CODE);
             }

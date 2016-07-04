@@ -2,8 +2,6 @@ package com.example.arthu.medicalapp;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -13,10 +11,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.example.arthu.medicalapp.Entity.Database;
+import com.example.arthu.medicalapp.ApiService.ProductService;
 import com.example.arthu.medicalapp.Entity.Product;
-
-import java.util.List;
 
 public class ProductActivity extends AppCompatActivity {
     private static final int REQUEST_CODE = 101;
@@ -66,9 +62,9 @@ public class ProductActivity extends AppCompatActivity {
     private void showProducts() {
         final ListView productList = (ListView)findViewById(R.id.productView);
 
-        List<Product> values = MainActivity.getDb().getList(Product.class);
+        Product[] values = new ProductService().getAll();
 
-        ArrayAdapter<Product> studentAdapter =  new ArrayAdapter<Product>(this, android.R.layout.simple_list_item_1, values);
+        ArrayAdapter<Product> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, values);
 
         productList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -76,12 +72,12 @@ public class ProductActivity extends AppCompatActivity {
                 Product product = (Product)productList.getItemAtPosition(position);
 
                 Intent i = new Intent(view.getContext(), ProductEntryActivity.class);
-                i.putExtra("Code", product.Code);
+                i.putExtra("Code", product.getCode());
                 startActivityForResult(i, REQUEST_CODE);
             }
         });
 
-        productList.setAdapter(studentAdapter);
+        productList.setAdapter(adapter);
     }
 
 }

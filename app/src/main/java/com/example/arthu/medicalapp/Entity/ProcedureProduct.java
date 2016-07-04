@@ -1,35 +1,42 @@
 package com.example.arthu.medicalapp.Entity;
 
-import com.activeandroid.Model;
-import com.activeandroid.annotation.Column;
-import com.activeandroid.annotation.Table;
+public class ProcedureProduct {
 
-import java.util.List;
+    private int quantity;
+    private Procedure procedure;
+    private Product product;
 
-@Table(name="ProcedureProducts")
-public class ProcedureProduct extends Model{
-    @Column(name="ProcedureId", onDelete = Column.ForeignKeyAction.CASCADE)
-    public Procedure Procedure;
-    @Column(name = "ProductId", onDelete = Column.ForeignKeyAction.CASCADE)
-    public Product Product;
-
-    @Column(name="Quantity")
-    public int Quantity;
-
-    public ProcedureProduct() { super(); }
+    public ProcedureProduct(){
+        this.quantity = 1;
+    }
 
     public ProcedureProduct(Procedure procedure, Product product){
-        this();
-        this.Procedure = procedure;
-        this.Product = product;
-        this.Quantity = 1;
+        this.quantity = 1;
+        this.product = product;
+        this.procedure = procedure;
     }
 
-    public List<Procedure> Procedures(){
-        return getMany(Procedure.class, "ProcedureProduct");
+    public Procedure getProcedure() {
+        return procedure;
     }
 
-    public List<Product> Products(){
-        return getMany(Product.class, "ProcedureProduct");
+    public void setProcedure(Procedure procedure) {
+        this.procedure = procedure;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+    public int getQuantity(){
+        return quantity;
+    }
+
+    public void setQuantity(int quantity){
+        this.quantity = quantity;
     }
 }

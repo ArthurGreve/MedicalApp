@@ -1,8 +1,8 @@
 package com.example.arthu.medicalapp;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -10,10 +10,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.example.arthu.medicalapp.Entity.Database;
+import com.example.arthu.medicalapp.ApiService.HealthEnsuranceService;
 import com.example.arthu.medicalapp.Entity.HealthEnsurance;
-
-import java.util.List;
 
 public class HealthEnsuranceActivity extends AppCompatActivity {
     private static final int REQUEST_CODE = 101;
@@ -65,7 +63,7 @@ public class HealthEnsuranceActivity extends AppCompatActivity {
     private void showHealthEnsurances() {
         final ListView heList = (ListView)findViewById(R.id.heView);
 
-        List<HealthEnsurance> values = MainActivity.getDb().getList(HealthEnsurance.class);
+        HealthEnsurance[] values = new HealthEnsuranceService().getAll();
 
         ArrayAdapter<HealthEnsurance> studentAdapter =  new ArrayAdapter<HealthEnsurance>(this, android.R.layout.simple_list_item_1, values);
 

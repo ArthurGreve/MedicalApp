@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.arthu.medicalapp">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -54,7 +56,14 @@
         <activity
             android:name=".ProcedureEntryActivity"
             android:label="MedicalApp - Procedimentos" />
-        <activity android:name=".Row"></activity>
+        <activity android:name=".Row" />
+
+        <activity
+            android:name=".OrderActivity"
+            android:label="MedicalApp - Pedidos" />
+        <activity
+            android:name=".OrderEntryActivity"
+            android:label="MedicalApp - Pedidos"></activity>
     </application>
 
 </manifest>

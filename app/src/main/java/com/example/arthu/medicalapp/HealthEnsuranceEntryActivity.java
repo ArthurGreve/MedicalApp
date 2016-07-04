@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.arthu.medicalapp.ApiService.HealthEnsuranceService;
 import com.example.arthu.medicalapp.Entity.HealthEnsurance;
 
 public class HealthEnsuranceEntryActivity extends AppCompatActivity {
@@ -19,7 +20,7 @@ public class HealthEnsuranceEntryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_health_ensurance_entry);
 
         Button btnDelete = (Button)findViewById(R.id.btnDelete);
-        Button btnSave = (Button) findViewById(R.id.btnSave2);
+        Button btnSave = (Button) findViewById(R.id.btnSave);
 
         if (this.getIntent().hasExtra("Id")) {
             this.Id = this.getIntent().getLongExtra("Id", -1);
@@ -37,13 +38,16 @@ public class HealthEnsuranceEntryActivity extends AppCompatActivity {
                 if (!EntryHelper.isFieldsEmpty(txtName)) {
                     HealthEnsurance healthEnsurance;
                     String name = txtName.getText().toString();
+                    HealthEnsuranceService api = new HealthEnsuranceService();
+
                     if (TextUtils.isEmpty(txtId.getText())) {
                         healthEnsurance = new HealthEnsurance(name);
+                        api.Add(healthEnsurance);
                     }else {
-                        healthEnsurance = MainActivity.getDb().getEntityById(HealthEnsurance.class, Long.parseLong(txtId.getText().toString()));
-                        healthEnsurance.Name = name;
+                        healthEnsurance = new HealthEnsurance(name);
+                        healthEnsurance.setId(Long.parseLong(txtId.getText().toString()));
+                        api.Update(healthEnsurance);
                     }
-                    MainActivity.getDb().save(healthEnsurance);
                     finish();
                 }
             }
@@ -55,7 +59,8 @@ public class HealthEnsuranceEntryActivity extends AppCompatActivity {
                 EditText idField = (EditText) findViewById(R.id.idField);
 
                 if(!EntryHelper.isFieldsEmpty(idField)){
-                    MainActivity.getDb().delete(HealthEnsurance.class, Long.parseLong(idField.getText().toString()));
+                    HealthEnsuranceService api = new HealthEnsuranceService();
+                    api.Delete(idField.getText().toString());
                     finish();
                 }
             }
@@ -63,12 +68,12 @@ public class HealthEnsuranceEntryActivity extends AppCompatActivity {
     }
 
     private void showFields(long id) {
-        HealthEnsurance healthEnsurance = MainActivity.getDb().getEntityById(HealthEnsurance.class, id);
+        HealthEnsurance healthEnsurance = new HealthEnsuranceService().getById(id);
 
         EditText txtId = (EditText)findViewById(R.id.idField);
         EditText txtName = (EditText)findViewById(R.id.nameField);
 
         txtId.setText(Long.toString(id));
-        txtName.setText(healthEnsurance.Name);
+        txtName.setText(healthEnsurance.getName());
     }
 }

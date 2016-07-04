@@ -1,8 +1,8 @@
 package com.example.arthu.medicalapp;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -10,10 +10,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.example.arthu.medicalapp.Entity.Doctor;
+import com.example.arthu.medicalapp.ApiService.ProcedureService;
 import com.example.arthu.medicalapp.Entity.Procedure;
-
-import java.util.List;
 
 public class ProcedureActivity extends AppCompatActivity {
     private static final int REQUEST_CODE = 101;
@@ -60,7 +58,7 @@ public class ProcedureActivity extends AppCompatActivity {
     private void showProcedures() {
         final ListView procedureList = (ListView)findViewById(R.id.procedureView);
 
-        List<Procedure> values = MainActivity.getDb().getList(Procedure.class);
+        Procedure[] values = new ProcedureService().getAll();
 
         ArrayAdapter<Procedure> studentAdapter =  new ArrayAdapter<Procedure>(this, android.R.layout.simple_list_item_1, values);
 
@@ -69,7 +67,7 @@ public class ProcedureActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Procedure procedure = (Procedure)procedureList.getItemAtPosition(position);
 
-                Intent i = new Intent(view.getContext(), ProductEntryActivity.class);
+                Intent i = new Intent(view.getContext(), ProcedureEntryActivity.class);
                 i.putExtra("Id", procedure.getId());
                 startActivityForResult(i, REQUEST_CODE);
             }

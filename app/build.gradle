@@ -20,8 +20,7 @@ android {
 }
 
 repositories {
-    mavenCentral()
-    maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+    mavenLocal()
 }
 
 dependencies {
@@ -29,5 +28,11 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.2.0'
     compile 'com.android.support:design:23.1.0'
-    compile 'com.michaelpardo:activeandroid:3.1.0-SNAPSHOT'
+    compile group: 'org.glassfish.jersey.core', name: 'jersey-client', version: '2.22'
+    compile group: 'org.glassfish.jersey.core', name: 'jersey-common', version: '2.22'
+    compile group: 'com.google.code.gson', name: 'gson', version: '2.6.2'
+}
+
+configurations{
+    compile.exclude group: 'javax.inject', module: 'javax.inject'
 }

@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
         menu.add(0, 1, 1, "Planos de Saúde");
         menu.add(0, 2, 2, "Médicos");
         menu.add(0, 3, 3, "Procedimentos");
+        menu.add(0, 4, 4, "Pedidos");
         return true;
     }
 
@@ -59,6 +60,10 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case 3:
                 intent = new Intent(this, ProcedureActivity.class);
+                startActivityForResult(intent, REQUEST_CODE);
+                return true;
+            case 4:
+                intent = new Intent(this, OrderActivity.class);
                 startActivityForResult(intent, REQUEST_CODE);
                 return true;
         }
